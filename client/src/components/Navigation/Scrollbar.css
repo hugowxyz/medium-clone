@@ -1,0 +1,42 @@
+/* Whole container */
+
+.topics-nav {
+  display: flex;
+  font-size: 14px;
+  color: grey;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Topics list */
+
+.topics-nav-list {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  max-width: 70em;
+  margin: 0 auto;
+  white-space: nowrap;
+}
+
+.topics-nav-wrapper {
+  display: inline;
+  transition: transform 200ms ease 0s;
+}
+
+.topics-nav-item {
+  display: inline-block;
+  margin: 0 15px;
+}
+
+.topics-nav-item a {
+  color: grey;
+}
+
+/* Controllers */
+
+.left-arrow,
+.right-arrow {
+  cursor: pointer;
+}
+
