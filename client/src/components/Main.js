@@ -92,7 +92,6 @@ const popularEntries = [
 ]
 
 const Main = () => {
-  
   return (
     <main class="mt-4">
       <div className="container">
