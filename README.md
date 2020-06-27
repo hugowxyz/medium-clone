@@ -1,3 +1,3 @@
-### Work to be done
+# medium-clone
 
-- [] figure out how to store blogs
+I am remaking Medium - https://medium.com/ - using the MERN stack for educational purposes.
