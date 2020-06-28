@@ -11,7 +11,7 @@ const MainA = ({title, teaser, metadata}) => {
       <div className="row">
         <div className="col-8">
           <p className="text-muted">{metadata.why}</p>
-          <h5>{title}</h5>
+          <h5><a href="#a">{title}</a></h5>
           <p className="text-muted">{teaser}</p>
           <ArticleFooter {...metadata} />
         </div>

@@ -15,7 +15,7 @@ const Secondary = ({title, metadata}) => {
           <div className="image-header" style={bg}></div>
         </div>
         <div className="col-9">
-          <h4>{title}</h4>
+          <h4><a href="#a">{title}</a></h4>
           <ArticleFooter {...metadata} />
         </div>
       </div>

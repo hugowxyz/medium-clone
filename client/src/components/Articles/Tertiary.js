@@ -9,7 +9,7 @@ const Tertiary = ({title, teaser, metadata}) => {
   return (
     <article className="tertiary-f">
       <div className="image-header mb-2" style={bg}></div>
-      <h4>{title}</h4>
+      <h4><a href="#a">{title}</a></h4>
       <p className="text-muted">{teaser}</p>
       <ArticleFooter {...metadata}/>
     </article>

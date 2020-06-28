@@ -1,5 +1,10 @@
 import React from 'react';
 
+import {
+  BrowserRouter as Router,
+  Switch, Route, Link
+} from 'react-router-dom'
+
 import $ from 'jquery'
 import Popper from 'popper.js'
 import 'bootstrap/dist/js/bootstrap.bundle.min'
@@ -13,12 +18,24 @@ import Main from './components/Main'
 
 const App = () => {
   return (
-    <div className="app">
+    <Router>
       <Navbar />
-      <Scrollbar />
-      <Featured />
-      <Main />
-    </div>
+
+      <Switch>
+        <Route path='/new-story'>
+          <div className="temp">
+            <div className="container">
+              <h1>Hello, World</h1>
+            </div>
+          </div>
+        </Route>
+        <Route path='/'>
+          <Scrollbar />
+          <Featured />
+          <Main />
+        </Route>
+      </Switch>
+    </Router>
   );
 };
 
