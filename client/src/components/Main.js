@@ -1,7 +1,6 @@
 import React from 'react';
 import './Main.css'
 import MainA from './Articles/MainA'
-import generateArticle from './utilities/generateArticle'
 import PopularEntry from './Navigation/PopularEntry';
 
 const articles = [

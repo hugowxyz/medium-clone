@@ -9,7 +9,7 @@ const Navbar = () => {
     <header>
       <nav className="navbar navbar-expand navbar-light">
         <div className="container">
-          <a className="navbar-brand tt"><Link to='/'>Medium</Link></a>
+         
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">

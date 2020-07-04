@@ -1,0 +1,27 @@
+.postArticle-content {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 16px;
+}
+
+.postArticle-content .container {
+  padding: 0 100px !important;
+}
+
+#title,
+#article {
+  outline: none;
+  border: none;
+  margin: 10px 0;
+  white-space: normal;
+  width: 100%;
+  word-wrap: break-word;
+  word-break: normal;
+}
+
+#title {
+  font-size: 3em;
+}
+
+#article {
+  font-size: 1.5em;
+}

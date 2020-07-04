@@ -2,11 +2,11 @@ import React from 'react';
 
 import {
   BrowserRouter as Router,
-  Switch, Route, Link
+  Switch, Route
 } from 'react-router-dom'
 
-import $ from 'jquery'
-import Popper from 'popper.js'
+import 'jquery'
+import 'popper.js'
 import 'bootstrap/dist/js/bootstrap.bundle.min'
 
 import './custom.scss'
@@ -16,6 +16,8 @@ import Scrollbar from './components/Navigation/Scrollbar'
 import Featured from './components/Featured'
 import Main from './components/Main'
 
+import Create from './components/Pages/Create'
+
 const App = () => {
   return (
     <Router>
@@ -23,11 +25,7 @@ const App = () => {
 
       <Switch>
         <Route path='/new-story'>
-          <div className="temp">
-            <div className="container">
-              <h1>Hello, World</h1>
-            </div>
-          </div>
+          <Create />
         </Route>
         <Route path='/'>
           <Scrollbar />
