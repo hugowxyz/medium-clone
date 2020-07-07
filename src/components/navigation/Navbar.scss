@@ -1,0 +1,27 @@
+/* Additional styles for navbar */
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 10px;
+}
+
+.icon {
+  color: grey;
+}
+
+button.link {
+  border: none;
+  background-color: white;
+  outline: none;
+}
+
+.nav-brand {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 2em;
+}
+
+.upgrade-button {
+  border: 1px solid grey;
+  border-radius: 0.4em;
+}

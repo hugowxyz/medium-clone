@@ -11,26 +11,20 @@ import 'bootstrap/dist/js/bootstrap.bundle.min'
 
 import './custom.scss'
 
-import Navbar from './components/Navigation/Navbar'
-import Scrollbar from './components/Navigation/Scrollbar'
-import Featured from './components/Featured'
-import Main from './components/Main'
-
-import Create from './components/Pages/Create'
+import Homepage from './endpoints/Homepage'
 
 const App = () => {
   return (
     <Router>
-      <Navbar />
-
       <Switch>
-        <Route path='/new-story'>
-          <Create />
-        </Route>
+        <Route path='/new-story'></Route>
+        <Route path='/me/stories'></Route>
+        <Route path='/me/drafts'></Route>
+        <Route path='/me/stats'></Route>
+        <Route path='/me/list'></Route>
+        <Route path='/me'></Route>
         <Route path='/'>
-          <Scrollbar />
-          <Featured />
-          <Main />
+          <Homepage />
         </Route>
       </Switch>
     </Router>
