@@ -2,6 +2,20 @@ import React from 'react';
 
 import Navbar from '../components/navigation/Navbar'
 import Scrollbar from '../components/navigation/Scrollbar'
+import LargeCard from '../components/articles/LargeCard'
+
+const data = {
+  blogUrl: 'noWhere',
+  coverUrl: 'https://cdn-images-1.medium.com/focal/374/136/51/34/1*Au3XmtggFJz9peTUtiejcA.jpeg',
+  titleClamp: {
+    title: 'What we don\'t know',
+    summary: 'lorem ipsum'
+  },
+  metadata: {
+    user: 'someone',
+    date: '08/07/20'
+  }
+}
 
 const Homepage = () => {
   return (
@@ -9,9 +23,30 @@ const Homepage = () => {
       <Navbar />
       <Scrollbar />
       
-      <div className="featured">
+      <section className="hero">
+        <div className="container">
+          <div className="row mt-4">
+            
+            <div className="col-5">
 
-      </div>
+              <LargeCard {...data} />
+
+            </div>
+
+            <div className="col-3">
+
+            </div>
+
+            <div className="col-4">
+
+            </div>
+
+          </div>
+
+          
+
+        </div>
+      </section>
 
     </main>
   );

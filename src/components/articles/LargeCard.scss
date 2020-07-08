@@ -1,0 +1,35 @@
+.hero-largeCard {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin-right: 24px;
+  flex: 0 1 auto;
+  position: relative;
+}
+
+.hero-post {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  color: black;
+
+  .hero-image {
+    flex: 0 1 auto;
+    height: 150px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .hero-postContent {
+    margin-left: 88px;
+  }
+
+  h1, a {
+    color: inherit;
+  }
+  
+  h1 {
+    font-size: 24px;
+  }
+
+}
