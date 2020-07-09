@@ -24,12 +24,20 @@
     margin-left: 88px;
   }
 
-  h1, a {
+  h1, a, button {
     color: inherit;
   }
   
   h1 {
     font-size: 24px;
+  }
+
+  button {
+    overflow: hidden;
+    max-height: 60px;
+    text-overflow: ellipsis;
+    font-weight: 400;
+    font-size: 16px;
   }
 
 }

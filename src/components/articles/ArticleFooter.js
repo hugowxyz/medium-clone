@@ -1,6 +1,7 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom'
+
+import './ArticleFooter.scss'
 
 const ArticleFooter = ({user, date, length}) => {
   const userUrl = `/users/${user}`

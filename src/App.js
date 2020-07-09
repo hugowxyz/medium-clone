@@ -23,7 +23,7 @@ const App = () => {
         <Route path='/me/stats'></Route>
         <Route path='/me/list'></Route>
         <Route path='/me'></Route>
-        <Route path='/'>
+        <Route exact path='/'>
           <Homepage />
         </Route>
       </Switch>

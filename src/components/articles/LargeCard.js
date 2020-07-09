@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 
 import './LargeCard.scss'
+
 import ArticleFooter from './ArticleFooter';
 
 const LargeCard = ({ blogUrl, coverUrl, titleClamp, metadata }) => {
@@ -13,7 +14,6 @@ const LargeCard = ({ blogUrl, coverUrl, titleClamp, metadata }) => {
         <Link to={blogUrl}>
           <div className='hero-image' style={{
             backgroundImage: `url(${coverUrl})`,
-            backgroundPosition: '51% 34% !important',
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover'
             }}></div>

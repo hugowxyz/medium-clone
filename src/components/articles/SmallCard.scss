@@ -1,0 +1,39 @@
+.hero-smallCard {
+  margin-bottom: 24px;
+  position: relative;
+
+  .hero-post {
+    width: 100%;
+    display: flex;
+
+    .hero-image {
+      height: 75px;
+      width: 75px;
+      margin-right: 24px;
+    }
+
+    .hero-postContent {
+      margin: 0;
+    }
+  
+    .hero-titleClamp {
+      overflow: hidden;
+  
+      a {
+        width: 100%;
+      }
+  
+      h2 {
+        font-weight: 600;
+        margin-bottom: 4px;
+        font-size: 18px;
+      }
+
+      button {
+        text-align: left;
+      }
+  
+    } 
+  }
+
+}
