@@ -1,0 +1,19 @@
+.adaptiveSelection--item {
+  display: flex;
+  margin-bottom: 25px;
+
+  .adaptiveSelection--left {
+    font-size: 25px;
+    color: lightgrey;
+    padding-right: 35px;
+
+  }
+
+  .adaptiveSelection--right {
+    h5 {
+      color: black;
+      font-size: 1.2em;
+      margin: 0;
+    }
+  }
+}

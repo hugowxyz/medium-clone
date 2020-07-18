@@ -6,32 +6,18 @@ import './SmallCard.scss'
 
 const SmallCard = ({ blogUrl, coverUrl, titleClamp, metadata}) => {
   return (
-    <article className="hero-smallCard">
-      <div className="hero-post">
-        
-        <Link to={blogUrl}>
-          <div className='hero-image' style={{
-            backgroundImage: `url(${coverUrl})`,
-            backgroundSize: 'cover'
-          }}>
-          </div>
-        </Link>
-
-        <div className="hero-postContent">
+    <article className="hero-card--small ui-scale">
           
-          <div className="hero-titleClamp">
+        <div className="hero-meta">
 
-            <Link to={blogUrl}>
-              <h2>{titleClamp.title}</h2>
-            </Link>
-
-          </div>
-
-          <ArticleFooter {...metadata} />
+          <Link to={blogUrl}>
+            <h2>Lorem ipsum dolor sit amet.</h2>
+          </Link>
 
         </div>
 
-      </div>
+        <ArticleFooter {...metadata} />
+
     </article>
   );
 };

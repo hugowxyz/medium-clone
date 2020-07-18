@@ -5,40 +5,24 @@ import './LargeCard.scss'
 
 import ArticleFooter from './ArticleFooter';
 
-const LargeCard = ({ blogUrl, coverUrl, titleClamp, metadata }) => {
+const LargeCard = ({ blogUrl, coverUrl, meta, metadata }) => {
   return (
-    <article className="hero-largeCard">
-
-      <div className="hero-post">
-        
-        <Link to={blogUrl}>
-          <div className='hero-image' style={{
-            backgroundImage: `url(${coverUrl})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover'
-            }}></div>
-        </Link>
-        
-        <div className="hero-postContent">
+    <article className="hero-card--large ui-scale">
           
-          <div className="titleClamp">
-            
-            <Link to={blogUrl}>
-              <h1>{titleClamp.title}</h1>
-            </Link>
-            
-            <Link to={blogUrl}>
-              <button className='link text-muted'>{titleClamp.summary}</button>
-            </Link>
+        <div className="hero-meta">
           
-          </div>
-
-          <ArticleFooter {...metadata} />
-
+          <Link to='/'>
+            <h1>Lorem ipsum dolor sit amet.</h1>
+          </Link>
+          
+          <Link to='/'>
+            <button className='link text-muted'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, fugit?</button>
+          </Link>
+        
         </div>
-      
-      </div>
-    
+
+        <ArticleFooter {...metadata} />
+
     </article>
   );
 };

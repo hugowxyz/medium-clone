@@ -1,0 +1,35 @@
+/* 
+  small device such as phones
+  sm = small = 576px
+
+  medium devices such as tablets
+  md = medium = 768px
+
+  large devices such as desktops
+  lg = large = 992px
+
+  extra large devices such as large desktops
+  xl = extra large = 1200px 
+*/
+
+.postPreview {
+  margin-bottom: 25px;
+  font-size: 12px;
+
+  @media screen and (min-width: 992px) {
+    max-width: 900px;
+  }
+
+  h2, p {
+    color: #000;
+  }
+
+  h2 {
+    font-size: 1.6em;
+  }
+
+  p {
+    font-size: 1.2em;
+    margin: 0;
+  }
+}

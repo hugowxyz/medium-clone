@@ -1,0 +1,93 @@
+/* 
+  small device such as phones
+  sm = small = 576px
+
+  medium devices such as tablets
+  md = medium = 768px
+
+  large devices such as desktops
+  lg = large = 992px
+
+  extra large devices such as large desktops
+  xl = extra large = 1200px 
+*/
+
+/* Layout */
+
+.hero-container {
+
+}
+
+@media screen and (min-width: 576px) {
+  .hero-container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 25px;
+  }
+}
+
+.card-container {
+}
+
+@media screen and (min-width: 576px) {
+
+}
+
+.card-container--large {
+  margin-right: 24px;
+}
+
+.card-container--small {
+  margin-right: 24px;
+
+}
+
+.card-container--medium {
+
+}
+
+.mainContainer {
+  
+  @media screen and (min-width: 992px) {
+    display: flex;
+  }
+
+  .mainContainer--left {
+    @media screen and (min-width: 992px) {
+      flex: 2;
+      padding-right: 25px;
+    }
+  }
+
+  .mainContainer--right {
+    display: none;
+    
+    @media screen and (min-width: 992px) {
+      display: block;
+      flex: 1;
+      padding-left: 15px;
+      padding-right: 15px;
+      margin-top: 50px;
+    }
+  }
+}
+
+/* Misc */
+
+.preview {
+  font-size: 2.5em;
+  margin-bottom: 25px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  color: white;
+  text-align: center;
+  background-color: black;
+
+  button {
+    font-size: 12px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 0;
+  }
+  
+}

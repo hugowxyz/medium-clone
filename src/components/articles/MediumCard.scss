@@ -1,0 +1,31 @@
+/* 
+  small device such as phones
+  sm = small = 576px
+
+  medium devices such as tablets
+  md = medium = 768px
+
+  large devices such as desktops
+  lg = large = 992px
+
+  extra large devices such as large desktops
+  xl = extra large = 1200px 
+*/
+
+.hero-card--medium {
+  display: none;
+  max-width: 250px;
+
+  @media screen and (min-width: 1200px) {
+    display: block;
+  }
+
+  .hero-meta {
+
+    h2 {
+      color: #000;
+      font-size: 2em;
+    }
+  
+  }
+}

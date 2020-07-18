@@ -6,7 +6,7 @@ import './ArticleFooter.scss'
 const ArticleFooter = ({user, date, length}) => {
   const userUrl = `/users/${user}`
   return (
-    <div className="hero-postFooter">
+    <div className="hero-card--footer ui-scale">
       
       <Link to={userUrl}>
         <button className='link mt-2 mb-1'>
