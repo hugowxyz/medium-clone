@@ -1,4 +1,16 @@
-/* Additional styles for navbar */
+/* 
+  small device such as phones
+  sm = small = 576px
+
+  medium devices such as tablets
+  md = medium = 768px
+
+  large devices such as desktops
+  lg = large = 992px
+
+  extra large devices such as large desktops
+  xl = extra large = 1200px 
+*/
 
 .nav-item {
   display: flex;
@@ -19,6 +31,43 @@ button.link {
 .nav-brand {
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 2em;
+
+  a {
+    color: black;
+    text-decoration: none;
+  }
+}
+
+.dropdown-menu {
+  left: -200px;
+  width: 300px;
+  margin-top: 10px;
+
+  @media screen and (min-width: 992px) {
+    left: -180px;
+  }
+
+  @media screen and (min-width: 1400px) {
+    left: -100px;
+  }
+
+}
+
+.dropdown-item a {
+  color: grey;
+  text-decoration: none;
+  user-select: none;
+  :active {
+    background-color: white;
+  }
+}
+
+.dropdown-item a strong {
+  color: black;
+}
+
+.green {
+  color: green;
 }
 
 .upgrade-button {

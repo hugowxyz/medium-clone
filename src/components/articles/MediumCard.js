@@ -17,7 +17,7 @@ const MediumCard = () => {
           
         
         <Link to='/'>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, placeat?</p>
+          <button className="link text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, placeat?</button>
         </Link>
 
       </div>

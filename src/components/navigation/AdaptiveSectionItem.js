@@ -1,7 +1,6 @@
 import React from 'react';
 
 import ArticleFooter from '../articles/ArticleFooter'
-import SmallCard from '../articles/SmallCard'
 
 import './AdaptiveSelectionItem.scss'
 

@@ -1,7 +1,5 @@
 import React from 'react';
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom'
-import axios from 'axios'
 
 import Navbar from '../components/navigation/Navbar'
 import Scrollbar from '../components/navigation/Scrollbar'
@@ -31,8 +29,7 @@ const Homepage = () => {
   return (
     <main className="homepage">
       <Navbar />
-      <Scrollbar />
-      
+      <Scrollbar />      
       <section className="hero">
         <div className="container">
           <div className="hero-container">
