@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 
-import Navbar from '../components/navigation/Navbar'
-import Scrollbar from '../components/navigation/Scrollbar'
 import LargeCard from '../components/articles/LargeCard'
 import SmallCard from '../components/articles/SmallCard'
 import MediumCard from '../components/articles/MediumCard'
@@ -28,8 +26,6 @@ const data = {
 const Homepage = () => {
   return (
     <main className="homepage">
-      <Navbar />
-      <Scrollbar />      
       <section className="hero">
         <div className="container">
           <div className="hero-container">

@@ -1,6 +1,4 @@
 import React from 'react';
-
-import Navbar from '../components/navigation/Navbar'
 import { useState } from 'react';
 
 import './NewStory.scss'
@@ -8,13 +6,20 @@ import './NewStory.scss'
 const NewStory = () => {
   const [title, setTitle] = useState("")
   const [body, setBody] = useState("")
+  const initialHeight = 66
 
   const processDraft = event => {
-    event.preventDefault()
-    console.log(event.target)
+    console.log(title, body)
+  }
+
+  const dynamicTextarea = element => {
+    element.rows = 1
+    const rows = Math.ceil(element.scrollHeight / initialHeight)
+    element.rows = rows
   }
 
   const processTitle = event => {
+    dynamicTextarea(event.target)
     setTitle(event.target.value)
   }
 
@@ -23,45 +28,45 @@ const NewStory = () => {
   }
 
   return (
-    <main>
+    <main className="newStory">
+      <div className="container">
 
-      <Navbar />
+        <button
+          className="btn btn-success btn--publish"
+          onClick={processDraft}
+        >
+          Publish
+        </button>
 
-      <main className="newStory">
-        <div className="container">
-
-          <button className="btn btn-success btn--publish">Publish</button>
-
-          <hr/>
+        <hr/>
+        
+        <form onSubmit={processDraft}>
+          <textarea
+            className="newStory-form--title"
+            type="text"
+            placeholder="Title"
+            value={title}
+            onChange={processTitle}
+            rows="1"
+            maxLength="57"
+          />  
           
-          <form onSubmit={processDraft}>
-            <textarea
-              className="newStory-form--title"
-              type="text"
-              placeholder="Title"
-              value={title}
-              onChange={processTitle}
-              rows="1"
-              maxLength="57"
-            />  
-            
-            <br/>
+          <br/>
 
-            <textarea 
-              className="newStory-form--body"
-              type="text"
-              placeholder="Tell your story..."
-              value={body}
-              onChange={processBody}
-              rows="30"
-            />
+          <textarea 
+            className="newStory-form--body"
+            type="text"
+            placeholder="Tell your story..."
+            value={body}
+            onChange={processBody}
+            rows="30"
+          />
 
-          </form>
-          
-        </div>
-      </main>
-     
+        </form>
+        
+      </div>
     </main>
+     
   );
 };
 

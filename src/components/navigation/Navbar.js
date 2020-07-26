@@ -29,12 +29,12 @@ const Navbar = () => {
                 @hugo
               </button>
               <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <Link to="/"><button className="dropdown-item"><strong>hugo</strong></button></Link>
+                <Link to="/me"><button className="dropdown-item"><strong>hugo</strong></button></Link>
                 <Link to="/"><button className="dropdown-item"><span className="text-muted">@phanhuyhugo</span></button></Link>
                 <Link to="/"><button className="dropdown-item"><span className="green">Become a member</span></button></Link>
                 <hr/>
                 <Link to="/new-story"><button className="dropdown-item">New story</button></Link>
-                <Link to="/"><button className="dropdown-item">Stories</button></Link>
+                <Link to="/me/stories"><button className="dropdown-item">Stories</button></Link>
                 <Link to="/"><button className="dropdown-item">Series</button></Link>
                 <Link to="/"><button className="dropdown-item">Stats</button></Link>
                 <hr/>
