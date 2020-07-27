@@ -3,9 +3,10 @@ const mongo = require('mongodb')
 const MongoClient = mongo.MongoClient
 const assert = require('assert');
 const logger = require('../utils/logger')
+const config = require('../utils/config')
 
-const mongoUrl = 'mongodb://localhost:27017';
-const dbName = 'blog';
+const mongoUrl = config.MONGO_URL;
+const dbName = config.DB;
 
 blogRouter.get('/', (req, res) => {
   const client = new MongoClient(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
