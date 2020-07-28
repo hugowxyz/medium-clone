@@ -5,8 +5,10 @@ const assert = require('assert');
 const logger = require('../utils/logger')
 const config = require('../utils/config')
 
-const mongoUrl = config.MONGO_URL;
-const dbName = config.DB;
+const mongoUrl = config.MONGO_URL
+const dbName = config.DB
+
+console.log('connecting to DB:', dbName)
 
 blogRouter.get('/', (req, res) => {
   const client = new MongoClient(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
