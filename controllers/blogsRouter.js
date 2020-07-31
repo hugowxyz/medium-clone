@@ -15,16 +15,19 @@ console.log('connecting to DB:', dbName)
 
 blogsRouter.get('/', (req, res) => {
   const client = new MongoClient(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
-  client.connect((err, client) => {
+  client.connect(async (err, client) => {
     assert.equal(null, err)
     const db = client.db(dbName)
 
     const collection = db.collection('blogs')
-    const data = collection.find({}).toArray((error, result) => {
-      assert.equal(null, error)
-      res.status(200).json(result)
-      client.close()
-    })
+    const result = await collection.find({}).toArray()
+
+    const queryId = new mongo.ObjectID(result.userId)
+
+    const user = db.collection('users').find({ _id: queryId})
+
+    res.status(200).json(result)
+    client.close()
   })
 })
 
@@ -81,7 +84,7 @@ blogsRouter.post('/', (req, res) => {
     const toInsert = {
       title: body.title,
       body: body.body,
-      user: user._id,
+      userId: user._id,
       date: new Date()
     }
 
@@ -95,12 +98,12 @@ blogsRouter.post('/', (req, res) => {
         ]
       }     
     } else {
+      console.log(user)
       newUser = user.blogs.concat(result.insertedId)
     }
 
-    console.log(newUser)  
-
-    res.json({ inserted: result.ops[0], user: newUser})
+    res.json({ inserted: result.ops[0], userBlogs: newUser})
+    client.close()
   })
 })
 

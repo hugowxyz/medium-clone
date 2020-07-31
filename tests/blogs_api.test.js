@@ -2,6 +2,7 @@ const app = require('../app')
 const config = require('../utils/config')
 const supertest = require('supertest')
 const api = supertest(app)
+const bcrypt = require('bcrypt')
 
 const mongo = require('mongodb')
 const MongoClient = mongo.MongoClient
@@ -9,17 +10,37 @@ const assert = require('assert')
 
 const mongoUrl = config.MONGO_URL
 const dbName = config.DB
-const collectionName = "blogs"
+
+const users = [
+  {
+    username: "hugo",
+    password: "password1"
+  },
+  {
+    username: "bob",
+    password: "password2"
+  },
+  {
+    username: "john",
+    password: "password3"
+  }
+]
 
 const data = [
   {
-    title: "React.js in Action"
+    title: "React.js in Action",
+    body: "lorem ipsum",
+    date: new Date(),
   },
   {
-    title: "Node.js in Action"
+    title: "Node.js in Action",
+    body: "lorem ipsum",
+    date: new Date(),
   },
   {
-    title: "Become a better Programmer with 10 easy steps"
+    title: "Become a better Programmer with 10 easy steps",
+    body: "lorem ipsum",
+    date: new Date(),
   }
 ]
 
@@ -35,10 +56,47 @@ beforeEach(async () => {
   assert.equal("blogTests", dbName)
   
   const db = client.db(dbName)
-  const collection = db.collection(collectionName)
+
+  await db.collection('users').deleteMany({})
+  users[0].passwordHash = await bcrypt.hash(users[0].password, 10)
+  users[1].passwordHash = await bcrypt.hash(users[1].password, 10)
+  users[2].passwordHash = await bcrypt.hash(users[2].password, 10)
+  const newUsers = [
+    {
+      username: users[0].username,
+      passwordHash: users[0].passwordHash
+    },
+    {
+      username: users[1].username,
+      passwordHash: users[1].passwordHash
+    },
+    {
+      username: users[2].username,
+      passwordHash: users[2].passwordHash
+    },
+  ]
+  let response = await db.collection('users').insertMany(newUsers)
+
+  data[0].userId = response.insertedIds['0']
+  data[1].userId = response.insertedIds['1']
+  data[2].userId = response.insertedIds['2']
   
-  await collection.deleteMany({})
-  await collection.insertMany(data)
+  await db.collection('blogs').deleteMany({})
+  response = await db.collection('blogs').insertMany(data)
+
+  let toModify = await db.collection('users').find({}).toArray()
+  toModify[0].blogs = [data[0].userId]
+  toModify[1].blogs = [data[1].userId]
+  toModify[2].blogs = [data[2].userId]
+
+  await db.collection('users').deleteMany({})
+  await db.collection('users').insertMany(toModify)
+
+  // console.log('Current state')
+  // response = await db.collection('blogs').find({}).toArray()
+  // console.log('Blogs', response)
+  // response = await db.collection('users').find({}).toArray()
+  // console.log('Users', response)
 
   client.close()
 })
@@ -54,16 +112,29 @@ describe("HTTP GET Tests", () => {
     expect(response.body).toHaveLength(data.length)
 
     /*
-    
-    /api/blogs GET RESPONSE [
-      { _id: '5f2081a6a5cb177eac58bcb1', title: 'React.js in Action' },
-      { _id: '5f2081a6a5cb177eac58bcb2', title: 'Node.js in Action' },
+    /api/blogs GET RESPONSE  [
       {
-        _id: '5f2081a6a5cb177eac58bcb3',
-        title: 'Become a better Programmer with 10 easy steps'
+        _id: '5f2420ec3e2a36688f16c77e',
+        title: 'React.js in Action',
+        body: 'lorem ipsum',
+        date: '2020-07-31T13:47:24.628Z',
+        userId: '5f2420ec3e2a36688f16c77b'
+      },
+      {
+        _id: '5f2420ec3e2a36688f16c77f',
+        title: 'Node.js in Action',
+        body: 'lorem ipsum',
+        date: '2020-07-31T13:47:24.628Z',
+        userId: '5f2420ec3e2a36688f16c77c'
+      },
+      {
+        _id: '5f2420ec3e2a36688f16c780',
+        title: 'Become a better Programmer with 10 easy steps',
+        body: 'lorem ipsum',
+        date: '2020-07-31T13:47:24.628Z',
+        userId: '5f2420ec3e2a36688f16c77d'
       }
     ]
-    
     */
   })
 
@@ -140,7 +211,32 @@ describe("HTTP POST Tests", () => {
     
   })
 
-  test("")
+  test("login, then add blog", async () => {
+    let response = await api
+      .post('/api/login')
+      .send({ username: users[0].username, password: users[0].password })
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+    
+    const token = response.body.token
+
+    const blog = {
+      title: "Test",
+      body: "also test"
+    }
+
+    response = await api
+      .post('/api/blogs')
+      .set('Authorisation', `bearer ${token}`)
+      .send(blog)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+    
+      console.log(response.body)
+
+      expect(response.body.inserted.title).toBe('Test')
+      expect(response.body.userBlogs).toHaveLength(2)
+  })
 
 })
 
