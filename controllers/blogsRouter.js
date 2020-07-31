@@ -1,16 +1,19 @@
-const blogRouter = require('express').Router()
+const blogsRouter = require('express').Router()
+const config = require('../utils/config')
+const jwt = require('jsonwebtoken')
+
 const mongo = require('mongodb')
 const MongoClient = mongo.MongoClient
 const assert = require('assert');
 const logger = require('../utils/logger')
-const config = require('../utils/config')
+const { response } = require('express')
 
 const mongoUrl = config.MONGO_URL
 const dbName = config.DB
 
 console.log('connecting to DB:', dbName)
 
-blogRouter.get('/', (req, res) => {
+blogsRouter.get('/', (req, res) => {
   const client = new MongoClient(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
   client.connect((err, client) => {
     assert.equal(null, err)
@@ -25,7 +28,7 @@ blogRouter.get('/', (req, res) => {
   })
 })
 
-blogRouter.get('/:id', (req, res, next) => {
+blogsRouter.get('/:id', (req, res, next) => {
   const client = new MongoClient(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
   client.connect((err, client) => {
     assert.equal(null, err)
@@ -42,23 +45,66 @@ blogRouter.get('/:id', (req, res, next) => {
   })
 })
 
-blogRouter.post('/', (req, res) => {
+const getToken = request => {
+  // Authorization header
+  const auth = request.get('authorisation')
+  if ( auth && auth.toLowerCase().startsWith('bearer ') ) {
+    return auth.substring(7)
+  }
+  return null
+}
+
+blogsRouter.post('/', (req, res) => {
   const client = new MongoClient(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
-  client.connect((err, client) => {
+  client.connect(async (err, client) => {
     assert.equal(null, err)
     const db = client.db(dbName)
 
     const body = req.body
-
-    db.collection('blogs').insertOne(body, (error, result) => {
-      if (error) next(error)
-      res.status(200).json(result)
+    const token = getToken(req)
+    let decodedToken
+    try {
+      decodedToken = jwt.verify(token, process.env.SECRET)
+    } catch(err) {
+      if (err.name === 'JsonWebTokenError') {
+        client.close()
+        return res.status(401).json({ error: 'token missing or invalid' })
+      }
+    }
+    
+    if ( !token || !decodedToken.id ) {
       client.close()
-    })    
+      return res.status(401).json({ error: 'token missing or invalid' })
+    }
+    const user = await db.collection('users').findOne({ username: decodedToken.username })
+
+    const toInsert = {
+      title: body.title,
+      body: body.body,
+      user: user._id,
+      date: new Date()
+    }
+
+    const result = await db.collection('blogs').insertOne(toInsert)
+
+    if ( user.blogs === undefined ) {
+      const newUser = {
+        ...user,
+        blogs: [
+          result.insertedId
+        ]
+      }     
+    } else {
+      newUser = user.blogs.concat(result.insertedId)
+    }
+
+    console.log(newUser)  
+
+    res.json({ inserted: result.ops[0], user: newUser})
   })
 })
 
-blogRouter.delete('/:id', (req, res) => {
+blogsRouter.delete('/:id', (req, res) => {
   const client = new MongoClient(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
   client.connect((err, client) => {
     assert.equal(null, err)
@@ -75,4 +121,4 @@ blogRouter.delete('/:id', (req, res) => {
   })
 })
 
-module.exports = blogRouter
+module.exports = blogsRouter

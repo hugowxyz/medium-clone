@@ -37,8 +37,10 @@ beforeEach(async () => {
   const db = client.db(dbName)
   const collection = db.collection(collectionName)
   
-  collection.deleteMany({})
-  collection.insertMany(data)
+  await collection.deleteMany({})
+  await collection.insertMany(data)
+
+  client.close()
 })
 
 describe("HTTP GET Tests", () => {
@@ -93,7 +95,7 @@ describe("HTTP GET Tests", () => {
 
 describe("HTTP POST Tests", () => {
 
-  test("post a blog to blogs endpoint", async () => {
+  test("post a blog to blogs endpoint without auth header", async () => {
     // response.body is equivalent to what the endpoint returns 
     let response = await api.get('/api/blogs')
       .expect(200)
@@ -102,13 +104,14 @@ describe("HTTP POST Tests", () => {
     response = await api
       .post('/api/blogs')
       .send({ data: "dummy data" })
-      .expect(200)
+      .expect(401)
       .expect('Content-Type', /application\/json/)
     
     //console.log('/api/blogs POST RESPONSE', response.body)
+    expect(response.body.error).toBe('token missing or invalid')
 
     response = await api.get('/api/blogs')
-    expect(response.body.length).toEqual(length + 1)
+    expect(response.body.length).toEqual(length)
 
     /*
     
@@ -137,6 +140,8 @@ describe("HTTP POST Tests", () => {
     
   })
 
+  test("")
+
 })
 
 describe("HTTP DELETE Tests", () => {
@@ -152,7 +157,7 @@ describe("HTTP DELETE Tests", () => {
       .delete(`/api/blogs/${toDelete}`)
       .expect(200)
       
-    console.log('/api/blogs DELETE RESPONSE', response.body)
+    //console.log('/api/blogs DELETE RESPONSE', response.body)
 
     expect(response.body.deletedCount).toBe(1)
 
