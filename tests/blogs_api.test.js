@@ -75,22 +75,34 @@ beforeEach(async () => {
       passwordHash: users[2].passwordHash
     },
   ]
-  let response = await db.collection('users').insertMany(newUsers)
+  const resUsers = await db.collection('users').insertMany(newUsers)
 
-  data[0].userId = response.insertedIds['0']
-  data[1].userId = response.insertedIds['1']
-  data[2].userId = response.insertedIds['2']
+  data[0].userId = resUsers.insertedIds['0']
+  data[1].userId = resUsers.insertedIds['1']
+  data[2].userId = resUsers.insertedIds['2']
   
+  // ASSIGNS NEW IDs: BUG
   await db.collection('blogs').deleteMany({})
-  response = await db.collection('blogs').insertMany(data)
+  const resBlogs = await db.collection('blogs').insertMany(data)
 
-  let toModify = await db.collection('users').find({}).toArray()
-  toModify[0].blogs = [data[0].userId]
-  toModify[1].blogs = [data[1].userId]
-  toModify[2].blogs = [data[2].userId]
+  //console.log('RESBLOGS:', resBlogs)
+  // let toModify = await db.collection('users').find({}).toArray()
+  // toModify[0].blogs = [data[0].userId]
+  // toModify[1].blogs = [data[1].userId]
+  // toModify[2].blogs = [data[2].userId]
 
-  await db.collection('users').deleteMany({})
-  await db.collection('users').insertMany(toModify)
+  // await db.collection('users').deleteMany({})
+  // await db.collection('users').insertMany(toModify)
+
+  await db.collection('users').updateOne(
+    {_id: resUsers.insertedIds[['0']]}, 
+    {"$push": { "blogs" : resBlogs.insertedIds['0']}})
+  await db.collection('users').updateOne(
+    {_id: resUsers.insertedIds[['1']]}, 
+    {"$push": { "blogs" : resBlogs.insertedIds['1']}})
+  await db.collection('users').updateOne(
+    {_id: resUsers.insertedIds[['2']]}, 
+    {"$push": { "blogs" : resBlogs.insertedIds['2']}})
 
   // console.log('Current state')
   // response = await db.collection('blogs').find({}).toArray()
@@ -241,7 +253,7 @@ describe("HTTP POST Tests", () => {
 })
 
 describe("HTTP DELETE Tests", () => {
-  test("delete a specific blog from /api/blogs/:id", async () => {
+  test("delete a specific blog from /api/blogs/:id without logging in", async () => {
     let response = await api
       .get('/api/blogs')
       .expect(200)
@@ -251,11 +263,11 @@ describe("HTTP DELETE Tests", () => {
     
     response = await api
       .delete(`/api/blogs/${toDelete}`)
-      .expect(200)
+      .expect(401)
       
     //console.log('/api/blogs DELETE RESPONSE', response.body)
 
-    expect(response.body.deletedCount).toBe(1)
+    //expect(response.body.deletedCount).toBe(1)
 
     /*
 
@@ -281,5 +293,49 @@ describe("HTTP DELETE Tests", () => {
     */
     
   })
+
+  test('login, then delete blog that doesn\'t belong to creator', async () => {
+    const data = { username: users[0].username, password: users[0].password }
+    let response = await api
+      .post('/api/login')
+      .send(data)
+    
+    const token = response.body.token
+    response = await api
+      .get('/api/blogs')
+    
+    const toDelete = response.body[1]._id
+
+    response = await api
+      .delete('/api/blogs/'+toDelete)
+      .set('Authorisation', `bearer ${token}`)
+      .expect(401)
+    
+    console.log(response.body)
+
+    })
+
+    test('login, then delete blog', async () => {
+      const data = { username: users[0].username, password: users[0].password }
+      let response = await api
+        .post('/api/login')
+        .send(data)
+      
+      const token = response.body.token
+
+      response = await api
+        .get(`/api/blogs/${response.body.blogs[0]}`)
+
+
+      const toDelete = response.body._id
+  
+      response = await api
+        .delete('/api/blogs/'+toDelete)
+        .set('Authorisation', `bearer ${token}`)
+        .expect(200)
+      
+      expect(response.body.deletedCount).toBe(1)
+  
+    })
 
 })

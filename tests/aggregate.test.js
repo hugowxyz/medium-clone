@@ -44,8 +44,11 @@ const data = [
   }
 ]
 
-test("create account, then create a blog post", async () => {
+test("create an account", async () => {
 
 })
 
-test("log into account, then create a blog post")
+test("log into account, then create a blog post", async () => {
+
+})
+

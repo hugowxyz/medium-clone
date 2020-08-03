@@ -42,7 +42,7 @@ blogsRouter.get('/:id', (req, res, next) => {
     db.collection('blogs').findOne({_id: queryId}, (error, result) => {
       if (error) next(error)
       logger.info(result)
-      res.status(200).json(result)
+      res.json(result)
       client.close()
     })  
   })
@@ -107,19 +107,46 @@ blogsRouter.post('/', (req, res) => {
   })
 })
 
+const includes = (array, n) => {
+  for (let i=0; i<array.length; i++) {
+    if (array[i].toString() === n.toString()) return true;
+  }
+  return false;
+}
+
 blogsRouter.delete('/:id', (req, res) => {
   const client = new MongoClient(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
-  client.connect((err, client) => {
+  client.connect(async (err, client) => {
     assert.equal(null, err)
     const db = client.db(dbName)
 
+    const token = getToken(req)
+    let decodedToken
+    try {
+      decodedToken = jwt.verify(token, process.env.SECRET)
+    } catch(err) {
+      if (err.name === 'JsonWebTokenError') {
+        client.close()
+        return res.status(401).json({ error: 'token missing or invalid' })
+      }
+    }
+    
+    if ( !token || !decodedToken.id ) {
+      client.close()
+      return res.status(401).json({ error: 'token missing or invalid' })
+    }
+    const user = await db.collection('users').findOne({ username: decodedToken.username })
+
     const queryId = new mongo.ObjectID(req.params.id)
 
-    db.collection('blogs').removeOne({_id: queryId}, (error, result) => {
-      if (error) next(error)
-      res.status(200).json(result)
+    if ( includes(user.blogs, queryId) ) {
+      const response = await db.collection('blogs').deleteOne({_id: queryId})
       client.close()
-    })
+      return res.json(response)
+    }
+
+    res.status(401).json({ error: 'not the creator of the blog'} )
+    client.close()
     
   })
 })
